@@ -1,0 +1,72 @@
+[
+  {
+    "path": "dashboard",
+    "links": [
+      {
+        "title": "Home",
+        "link": "/dashboard/home",
+        "icon": ["fas", "home"]
+      },
+      {
+        "title": "Pagos",
+        "link": "/pagos",
+        "icon": ["fas", "money-bill-wave"]
+      },
+      {
+        "title": "Vecinos",
+        "link": "/vecinos",
+        "icon": ["fas", "users"]
+      },
+      {
+        "title": "Reparaciones",
+        "link": "/reparaciones",
+        "icon": ["fas", "wrench"]
+      }
+    ]
+  },
+  {
+    "path": "pagos",
+    "links": [
+      {
+        "title": "Consultar pagos",
+        "link": "/pagos",
+        "icon": ["fas", "home"]
+      },
+      {
+        "title": "Registrar Pago",
+        "link": "/pagos/crear",
+        "icon": ["fas", "money-bill-wave"]
+      }
+    ]
+  },
+  {
+    "path": "vecinos",
+    "links": [
+      {
+        "title": "Registrar vecino",
+        "link": "/vecinos/crear",
+        "icon": ["fas", "home"]
+      },
+      {
+        "title": "Consultar vecinos",
+        "link": "/vecinos",
+        "icon": ["fas", "money-bill-wave"]
+      }
+    ]
+  },
+  {
+    "path": "reparaciones",
+    "links": [
+      {
+        "title": "Consultar reparaciones",
+        "link": "/reparaciones",
+        "icon": ["fas", "home"]
+      },
+      {
+        "title": "Crear reparación",
+        "link": "/reparaciones/crear",
+        "icon": ["fas", "wrench"]
+      }
+    ]
+  }
+]

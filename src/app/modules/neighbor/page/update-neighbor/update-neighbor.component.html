@@ -1,0 +1,22 @@
+<fieldset [disabled]="isLoading">
+
+	<p class="mb-md-3" *ngFor="let error of errors; let i = index">
+		<ngb-alert [type]="'danger'" (closed)="close(i)">{{ error }}</ngb-alert>
+	</p>
+	
+	<app-neighbor-form
+		[neighbor]="neighbor"
+		(formValuesValid)="receiveFormValuesValid($event)"
+	>
+	</app-neighbor-form>
+	<div>
+		<button mat-button type="button" [disabled]="!formValuesValid" (click)="updateNeighbor()">
+			<span [hidden]="isLoading">Actualizar vecino</span>
+			<span [hidden]="!isLoading">
+				<fa-icon icon="asterisk" size="2x" [spin]="true"></fa-icon>
+			</span>
+		</button>
+	</div>
+<fieldset>
+	
+	

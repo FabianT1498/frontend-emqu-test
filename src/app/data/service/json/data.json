@@ -1,0 +1,8 @@
+{
+  "paymentMethods": [
+    {
+      "id": 1,
+      "name": "Efectivo"
+    }
+  ]
+}
