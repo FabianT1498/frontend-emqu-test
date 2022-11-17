@@ -3,9 +3,13 @@
     
     <app-nav (ToggleSidenavEvent)="receiveSidenavState($event)"></app-nav>
 
-    <!-- Main content is into app-sidenav -->
-    <app-sidenav [isOpen]="isSidenavOpen"></app-sidenav>
-
+    <div class="wrapper">
+      <div class="position-relative h-100">
+        <!-- Main content is into app-sidenav -->
+        <app-sidenav [isOpen]="isSidenavOpen"></app-sidenav>
+      </div>
+    </div>
+    
     <app-footer></app-footer>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<mat-sidenav-container autosize>
+<mat-sidenav-container >
   <mat-sidenav mode="side" role="navigation" [(opened)]="isOpen">
     <ng-container *ngIf="(items$ | async) as items">
       <mat-nav-list>
@@ -8,7 +8,7 @@
         routerLinkActive="list-item-active"
         >
           <fa-icon [icon]="[item.icon[0], item.icon[1]]"></fa-icon>
-          {{item.title}}
+          <span class="ml-md-3">{{item.title}}</span>
         </a>
       </mat-nav-list>      
     </ng-container>     

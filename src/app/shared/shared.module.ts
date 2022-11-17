@@ -37,7 +37,8 @@ import {
   faMoneyBillWave,
   faFileInvoiceDollar,
   faFileExcel,
-  faWrench
+  faWrench,
+  faServer
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faMediumM, faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -105,7 +106,8 @@ export class SharedModule {
       faMoneyBillWave,
       faFileInvoiceDollar,
       faFileExcel,
-      faWrench
+      faWrench,
+      faServer
     );
   }
 }

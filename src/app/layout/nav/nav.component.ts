@@ -11,7 +11,6 @@ import { LinkRoutesService } from 'app/core/service/link-routes.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  public version = environment.version;
   public repoUrl = 'https://github.com/mathisGarberg/angular-folder-structure';
   public isDarkTheme$: Observable<boolean>;
   public items$: Observable<any>;
