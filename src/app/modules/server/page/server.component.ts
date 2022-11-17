@@ -22,7 +22,7 @@ import { DataService } from '@app/service/data.service';
 import { PaymentsDataSource } from '@shared/data-source/payments-data-source';
 import { ActivatedRoute } from '@angular/router';
 
-import { PaymentService } from '@data/service/payment.service';
+import { PaymentService } from '@data/service/server.service';
 import { BankService } from '@data/service/bank.service';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -34,7 +34,7 @@ import { Bank } from '@data/schema/bank';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
   searchPaymentsForm: FormGroup;
   paymentSearch: PaymentSearch;
   searchData$: BehaviorSubject<PaymentSearch>;

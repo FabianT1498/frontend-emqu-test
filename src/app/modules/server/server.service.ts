@@ -8,18 +8,18 @@ import {
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { PaymentService } from '@data/service/payment.service';
+import { ServerService } from '@data/service/server.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentResolver implements Resolve<number> {
-  constructor(private paymentService: PaymentService, private router: Router) {}
+export class ServerResolver implements Resolve<number> {
+  constructor(private serverService: ServerService, private router: Router) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<number> {
-    return this.paymentService.getPaymentsCount().pipe(map(res => res));
+    return this.serverService.getPaymentsCount().pipe(map(res => res));
   }
 }

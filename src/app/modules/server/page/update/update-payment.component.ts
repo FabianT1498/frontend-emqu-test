@@ -13,7 +13,7 @@ import { catchError, finalize, take, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 // CHILD COMPONENTS
-import { PaymentFormComponent } from '@modules/payment/component/payment-form/payment-form.component';
+import { PaymentFormComponent } from '@modules/server/component/payment-form/payment-form.component';
 
 /** SERVICES */
 import { DataService } from '@app/service/data.service';
@@ -21,7 +21,7 @@ import { NeighborService } from '@data/service/neightbor.service';
 import { MonthlyPaymentService } from '@data/service/monthly-payment.service';
 import { RepairService } from '@data/service/repair.service';
 import { ContributionService } from '@data/service/contribution.service';
-import { PaymentService } from '@data/service/payment.service';
+import { PaymentService } from '@data/service/server.service';
 
 /* SHARED SERVICES */
 import { ClearSelectTableService } from '@shared/service/clear-select-table.service';

@@ -32,7 +32,7 @@ import { NeighborService } from '@data/service/neightbor.service';
 import { MonthlyPaymentService } from '@data/service/monthly-payment.service';
 import { RepairService } from '@data/service/repair.service';
 import { ContributionService } from '@data/service/contribution.service';
-import { PaymentService } from '@data/service/payment.service';
+import { PaymentService } from '@data/service/server.service';
 import { BankService } from '@data/service/bank.service';
 
 /* SHARED SERVICES */

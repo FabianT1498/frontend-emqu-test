@@ -8,7 +8,7 @@ import {
   tap
 } from 'rxjs/operators';
 
-import { PaymentService } from '@data/service/payment.service';
+import { PaymentService } from '@data/service/server.service';
 import { Payment } from '@data/schema/payment';
 import { PaymentSearch } from '@data/interface/search-payments';
 
