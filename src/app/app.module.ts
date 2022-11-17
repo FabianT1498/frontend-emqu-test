@@ -8,11 +8,11 @@ import { SharedModule } from '@shared/shared.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-// import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
+import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
-// import { NavComponent } from './layout/nav/nav.component';
-// import { FooterComponent } from './layout/footer/footer.component';
-// import { SidenavComponent } from './layout/sidenav/sidenav.component';
+import { NavComponent } from './layout/nav/nav.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { SidenavComponent } from './layout/sidenav/sidenav.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -20,10 +20,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     AuthLayoutComponent,
-    // ContentLayoutComponent,
-    // NavComponent,
-    // FooterComponent,
-    // SidenavComponent
+    ContentLayoutComponent,
+    NavComponent,
+    FooterComponent,
+    SidenavComponent
   ],
   imports: [
     // angular

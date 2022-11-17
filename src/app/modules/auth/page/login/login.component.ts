@@ -39,7 +39,10 @@ export class LoginComponent implements OnInit {
       .login(credentials)
       .pipe(
         delay(1500),
-        tap(user => this.router.navigate(['/dashboard/home'])),
+        tap(user => {
+          localStorage.setItem('token', user['access_token'])
+          this.router.navigate(['/dashboard/home'])
+        }),
         finalize(() => (this.isLoading = false)),
         catchError(error => of((this.error = error)))
       )
@@ -48,7 +51,7 @@ export class LoginComponent implements OnInit {
 
   private buildForm(): void {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
