@@ -56,21 +56,27 @@ export class ServerService {
     );
   }
 
-  // createPayment(data: Observable<any>): Observable<any> {
-  //   return data.pipe(
-  //     switchMap(req =>
-  //       from(this.ipc.invoke('create-payment', ...Object.values(req))).pipe(
-  //         map(res => {
-  //           if (res.status === 0) {
-  //             throw res;
-  //           }
-  //           console.log(res);
-  //           return res;
-  //         })
-  //       )
-  //     )
-  //   );
-  // }
+  createServer(server: ServerModel): Observable<any> {
+
+    return this.http.post(
+      this.url + 'servers',
+      server, 
+      {
+        headers: new HttpHeaders({
+          "content-type": 'application/json',
+          "Access-Control-Allow-Origin": '*'
+        })
+      }
+    ).pipe(
+      map((res: any) => {
+        if (res.status === 0) {
+          throw res;
+        }
+        console.log(res);
+        return res;
+      })
+    )
+  }
 
   // editPayment(paymentID: string = '-1'): Observable<any> {
   //   return from(this.ipc.invoke('edit-payment', paymentID)).pipe(

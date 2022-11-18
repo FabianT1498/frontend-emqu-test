@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 import { ServerComponent } from './page/server.component';
-// import { CreatePaymentComponent } from './page/create/create-payment.component';
+import { CreateServerComponent } from './page/create/create-server.component';
 // import { UpdatePaymentComponent } from './page/update/update-payment.component';
 // import { MonthlyPaymentsSelectComponent } from './component/monthly-payments-select/monthly-payments-select.component';
 // import { RepairsSelectComponent } from './component/repairs-select/repairs-select.component';
@@ -15,7 +15,7 @@ import { ServerRoutingModule } from './server.routing';
 @NgModule({
   declarations: [
     ServerComponent,
-    // CreatePaymentComponent,
+    CreateServerComponent,
     // UpdatePaymentComponent,
     // MonthlyPaymentsSelectComponent,
     // RepairsSelectComponent,

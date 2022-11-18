@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// import { CreatePaymentComponent } from './page/create/create-payment.component';
+import { CreateServerComponent } from './page/create/create-server.component';
 // import { UpdatePaymentComponent } from './page/update/update-payment.component';
 import { ServerComponent } from './page/server.component';
 
@@ -17,10 +17,10 @@ export const routes: Routes = [
       serversCount: ServerResolver
     }
   },
-  // {
-  //   path: 'crear',
-  //   component: CreatePaymentComponent
-  // },
+  {
+    path: 'create',
+    component: CreateServerComponent
+  },
   // {
   //   path: ':id/editar',
   //   component: UpdatePaymentComponent,
