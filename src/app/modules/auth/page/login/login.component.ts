@@ -39,8 +39,9 @@ export class LoginComponent implements OnInit {
       .login(credentials)
       .pipe(
         delay(1500),
-        tap(user => {
-          localStorage.setItem('token', user['access_token'])
+        tap(data => {
+          localStorage.setItem('access_token', data['access_token'])
+          localStorage.setItem('refresh_token', data['refresh_token'])
           this.router.navigate(['/dashboard/home'])
         }),
         finalize(() => (this.isLoading = false)),
