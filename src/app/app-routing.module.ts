@@ -25,18 +25,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('@modules/server/server.module').then(m => m.ServerModule)
       },
-      // {
-      //   path: 'reparaciones',
-      //   loadChildren: () =>
-      //     import('@modules/repair/repair.module').then(m => m.RepairModule)
-      // },
-      // {
-      //   path: 'vecinos',
-      //   loadChildren: () =>
-      //     import('@modules/neighbor/neighbor.module').then(
-      //       m => m.NeighborModule
-      //     )
-      // }
     ]
   },
   {

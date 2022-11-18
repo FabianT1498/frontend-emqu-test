@@ -38,7 +38,8 @@ import {
   faFileInvoiceDollar,
   faFileExcel,
   faWrench,
-  faServer
+  faServer,
+  faPlay
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faMediumM, faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -83,6 +84,7 @@ export class SharedModule {
       faGithub,
       faMediumM,
       faPlus,
+      faPlay,
       faEdit,
       faTrash,
       faTimes,

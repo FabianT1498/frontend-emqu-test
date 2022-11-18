@@ -6,8 +6,9 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   map,
@@ -26,6 +27,7 @@ import { ServerSearch } from '@data/interface/server-search';
 import { ServerService } from '@data/service/server.service';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Server, ServerModel } from '@data/schema/server';
 
 @Component({
   selector: 'app-payment',
@@ -53,6 +55,8 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
   
   private signal$ = new Subject();
 
+  private server$: Subject<ServerModel> = new Subject();
+
   constructor(
     private serverService: ServerService,
     private dataService: DataService,
@@ -64,6 +68,7 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.buildForm();
     this.addFormListeners();
     this.loadInitialData();
+    this.addEventListeners();
   }
 
   ngAfterViewInit() {
@@ -77,6 +82,21 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(takeUntil(this.signal$))
       .subscribe(res => this.loadServersPage());
+  }
+
+  private addEventListeners(){
+
+    this.serverService
+      .createTest(this.server$)
+      .pipe(
+        takeUntil(this.signal$),
+        catchError(err => {
+          return of(err);
+        }),
+      )
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 
   private loadInitialData() {
@@ -156,6 +176,13 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.searchData$.next(this.serverSearch);
+  }
+
+  public runTest(server: Server){
+   
+    const serverModel = new ServerModel(server);  
+    
+    this.server$.next(serverModel);
   }
 
   ngOnDestroy() {
