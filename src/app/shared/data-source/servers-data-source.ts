@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   finalize,
+  map,
   switchMap,
   takeUntil,
   tap
@@ -40,12 +41,17 @@ export class ServersDataSource implements DataSource<Server> {
         catchError(() => of([])),
         tap((next: any) => {
           this.loadingSubject.next(true);
+        }),
+        map((val): Server[] => {
+          return val.data.map(val => {
+            return { ipv4: val.ipv4, domainName: val['domain_name'] }
+          })
         })
       )
       .subscribe(res => {
         console.log(res);
         this.loadingSubject.next(false);
-        this.serversSubject.next(res.data);
+        this.serversSubject.next(res);
       });
   }
 }
