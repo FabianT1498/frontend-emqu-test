@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   ViewChild
 } from '@angular/core';
+
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -14,63 +15,46 @@ import {
   takeUntil
 } from 'rxjs/operators';
 
-import { PaymentSearch } from '@data/interface/search-payments';
-
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
 import { DataService } from '@app/service/data.service';
-import { PaymentsDataSource } from '@shared/data-source/payments-data-source';
+import { ServersDataSource } from '@shared/data-source/servers-data-source';
 import { ActivatedRoute } from '@angular/router';
 
-import { PaymentService } from '@data/service/server.service';
-import { BankService } from '@data/service/bank.service';
+import { ServerSearch } from '@data/interface/server-search';
+import { ServerService } from '@data/service/server.service';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Moment } from 'moment';
-import { Bank } from '@data/schema/bank';
 
 @Component({
   selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  templateUrl: './server.component.html',
+  styleUrls: ['./server.component.scss']
 })
 export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
-  searchPaymentsForm: FormGroup;
-  paymentSearch: PaymentSearch;
-  searchData$: BehaviorSubject<PaymentSearch>;
+  searchForm: FormGroup;
+  serverSearch: ServerSearch;
+  searchData$: BehaviorSubject<ServerSearch>;
 
-  /** TOTAL PAYMENTS */
-  paymentsCount: number;
+  serverCount: number;
 
   /** TABLE COMPONENTS */
-  dataSource: PaymentsDataSource;
-  paymentsTblColumns = [
-    'id',
-    'neighborFullName',
-    'paymentDate',
-    'paymentMethod',
-    'paymentAmount',
-    'referenceNumber',
-    'bank',
-    'optionsPayment'
+  dataSource: ServersDataSource;
+  serversTblColumns = [
+    'ipv4',
+    'domainName',
+    'options'
   ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  /** Observablesdata */
-  paymentMethods$: Observable<any[]>;
-  banks$: Observable<Bank[]>;
-
-  isElectronicPayment$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-
+  
   private signal$ = new Subject();
 
   constructor(
-    private paymentService: PaymentService,
-    private bankService: BankService,
+    private serverService: ServerService,
     private dataService: DataService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
@@ -92,17 +76,13 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(takeUntil(this.signal$))
-      .subscribe(res => this.loadPaymentsPage());
+      .subscribe(res => this.loadServersPage());
   }
 
   private loadInitialData() {
-    this.paymentMethods$ = this.dataService.getData('paymentMethods');
-
-    this.banks$ = this.bankService.getBanks();
-
-    this.paymentSearch = {
-      neighborID: -1,
-      searchCriterias: this.searchPaymentsForm.value,
+    
+    this.serverSearch = {
+      searchCriterias: this.searchForm.value,
       searchOptions: {
         sortDirection: 'asc',
         sortActive: 'id',
@@ -111,30 +91,27 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     };
 
-    this.searchData$ = new BehaviorSubject(this.paymentSearch);
+    this.searchData$ = new BehaviorSubject(this.serverSearch);
 
     /** Data Source */
-    this.dataSource = new PaymentsDataSource(this.paymentService);
-    this.dataSource.loadPayments(this.searchData$);
+    this.dataSource = new ServersDataSource(this.serverService);
+    this.dataSource.loadServers(this.searchData$);
 
     /** Total payments */
-    this.paymentsCount = this.route.snapshot.data['paymentsCount'];
+    this.serverCount = this.route.snapshot.data['serversCount'];
   }
 
   private buildForm() {
-    this.searchPaymentsForm = this.formBuilder.group({
-      neighborDNI: '',
-      paymentStartDate: '',
-      paymentEndDate: '',
-      paymentMethod: 'Todos',
-      paymentBank: -1,
-      referenceNumber: ''
+    this.searchForm = this.formBuilder.group({
+      ipv4: '',
+      domainName: '',
     });
   }
 
   private addFormListeners() {
-    const neighborDNI$ = this.searchPaymentsForm
-      .get('neighborDNI')
+    
+    const ipv4$ = this.searchForm
+      .get('ipv4')
       .valueChanges.pipe(
         startWith(''),
         debounceTime(450),
@@ -142,111 +119,49 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
         map(val => val.toUpperCase())
       );
 
-    neighborDNI$.subscribe(
-      (res: string) => (this.paymentSearch.searchCriterias.neighborDNI = res)
+    ipv4$.subscribe(
+      (res: string) => (this.serverSearch.searchCriterias.ipv4 = res)
     );
 
-    const paymentStartDate$ = this.searchPaymentsForm
-      .get('paymentStartDate')
+    const domainName$ = this.searchForm
+      .get('domainName')
       .valueChanges.pipe(
-        distinctUntilChanged(),
+        startWith(''),
+        debounceTime(450),
         takeUntil(this.signal$),
-        map((date: Moment) => this.dateToString(date, 'YYYY-MM-DD'))
+        map(val => val.toUpperCase())
       );
 
-    paymentStartDate$.subscribe((res: string) => {
-      this.paymentSearch.searchCriterias.paymentStartDate = res;
-      this.paymentSearch.searchCriterias.paymentEndDate = null;
-    });
-
-    const paymentEndDate$ = this.searchPaymentsForm
-      .get('paymentEndDate')
-      .valueChanges.pipe(
-        distinctUntilChanged(),
-        takeUntil(this.signal$),
-        map((date: Moment) => this.dateToString(date, 'YYYY-MM-DD'))
-      );
-
-    paymentEndDate$.subscribe((res: string) => {
-      this.paymentSearch.searchCriterias.paymentEndDate = res;
-    });
-
-    const paymentMethod$ = this.searchPaymentsForm
-      .get('paymentMethod')
-      .valueChanges.pipe(distinctUntilChanged(), takeUntil(this.signal$));
-
-    paymentMethod$.subscribe((res: string) => {
-      res !== 'Todos' && res !== 'Efectivo'
-        ? this.isElectronicPayment$.next(true)
-        : this.isElectronicPayment$.next(false);
-      this.resetElectronicPaymentsInputs();
-      this.paymentSearch.searchCriterias.paymentMethod = res;
-    });
-
-    const paymentBank$ = this.searchPaymentsForm
-      .get('paymentBank')
-      .valueChanges.pipe(distinctUntilChanged(), takeUntil(this.signal$));
-
-    paymentBank$.subscribe((res: number) => {
-      this.paymentSearch.searchCriterias.paymentBank = res;
-    });
-
-    const referenceNumber$ = this.searchPaymentsForm
-      .get('referenceNumber')
-      .valueChanges.pipe(debounceTime(450), takeUntil(this.signal$));
-
-    referenceNumber$.subscribe((res: string) => {
-      this.paymentSearch.searchCriterias.referenceNumber = res;
-    });
+    ipv4$.subscribe(
+      (res: string) => (this.serverSearch.searchCriterias.domainName = res)
+    );
 
     merge(
-      neighborDNI$,
-      paymentStartDate$,
-      paymentEndDate$,
-      paymentMethod$,
-      paymentBank$,
-      referenceNumber$
+      ipv4$,
+      domainName$,
     )
       .pipe(takeUntil(this.signal$))
       .subscribe(res => {
         this.paginator.pageIndex = 0;
-        this.loadPaymentsPage();
+        this.loadServersPage();
       });
   }
 
-  private dateToString(date: Moment, format: string): string | null {
-    if (!date) {
-      return null;
-    }
-
-    return date.format(format);
-  }
-
-  private resetElectronicPaymentsInputs() {
-    this.searchPaymentsForm.get('paymentBank').setValue(-1);
-    this.searchPaymentsForm.get('referenceNumber').setValue('');
-  }
-
-  private loadPaymentsPage() {
-    this.paymentSearch.searchOptions = {
+  private loadServersPage() {
+    this.serverSearch.searchOptions = {
       sortDirection: this.sort.direction,
       sortActive: this.sort.active,
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize
     };
 
-    this.searchData$.next(this.paymentSearch);
-  }
-
-  showPaymentDetail($event, row) {
-    console.log(row);
+    this.searchData$.next(this.serverSearch);
   }
 
   ngOnDestroy() {
-    this.signal$.next();
+    this.signal$.next('');
     this.signal$.complete();
 
     this.searchData$.complete();
-    this.isElectronicPayment$.complete();
   }
 }

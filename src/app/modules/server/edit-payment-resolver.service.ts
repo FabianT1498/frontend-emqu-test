@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { PaymentService } from '@data/service/server.service';
-import { Payment } from '@data/schema/payment';
+import { Payment } from '@data/schema/server';
 
 @Injectable({
   providedIn: 'root'

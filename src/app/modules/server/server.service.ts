@@ -20,6 +20,6 @@ export class ServerResolver implements Resolve<number> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<number> {
-    return this.serverService.getPaymentsCount().pipe(map(res => res));
+    return this.serverService.getServersCount().pipe(map(res => res));
   }
 }

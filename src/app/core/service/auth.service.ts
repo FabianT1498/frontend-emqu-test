@@ -34,8 +34,8 @@ export class AuthService {
     let data = {
       ...loginContext,
       "grant_type": 'password',
-      "client_id": 2,
-      "client_secret": 'Nl8uEVBTzUEq4NL3GjC3BxNdX5BBeqRHSIJhQnL0',
+      "client_id": 6,
+      "client_secret": 'PwlMlZH0wQcXsY3Bf6sAyNf1yTNcOMCxjS14xaPG',
       "scope": '*'
     }
     return this.http.post(

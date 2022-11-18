@@ -9,8 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Server, ServerModel } from '../schema/server';
 
 import { handleError } from './handleError';
-// import { MonthlyPayment } from '@data/schema/monthly-payment';
-// import { PaymentSearch } from '@data/interface/search-payments';
+import { ServerSearch } from '@data/interface/server-search';
 
 @Injectable({
   providedIn: 'root'
@@ -21,33 +20,33 @@ export class ServerService {
 
   constructor(private http: HttpClient) {}
 
-  // getPayments(data: Observable<PaymentSearch>): Observable<any> {
-  //   return data.pipe(
-  //     switchMap(req => {
-  //       console.log(req);
-  //       return from(
-  //         this.ipc.invoke('get-payments', ...Object.values(req))
-  //       ).pipe(
-  //         map(res => {
-  //           if (res.status === 0) {
-  //             throw new Error(res.message);
-  //           }
-  //           console.log(res);
-  //           return res;
-  //         })
-  //       );
-  //     })
-  //   );
-  // }
+  getServers(data: Observable<ServerSearch>): Observable<any> {
+    return data.pipe(
+      switchMap(req => {
+        console.log(req);
+        return from(
+          this.http.get(`${this.url}servers`)
+        ).pipe(
+          map((res: any) => {
+            if (res.status === 0) {
+              throw new Error(res.message);
+            }
+            console.log(res);
+            return res;
+          })
+        );
+      })
+    );
+  }
 
   getServersCount(): Observable<number> {
 
-    return this.http.get(this.url + 'servers/count').pipe(
+    return this.http.get(this.url + 'servers').pipe(
       map((res: any) => {
         if (res.status === 400) {
           throw new Error(res.message);
         }
-        return res.data;
+        return res.meta.count;
       })
     );
   }

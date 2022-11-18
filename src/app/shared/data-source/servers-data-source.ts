@@ -8,33 +8,33 @@ import {
   tap
 } from 'rxjs/operators';
 
-import { PaymentService } from '@data/service/server.service';
-import { Payment } from '@data/schema/payment';
-import { PaymentSearch } from '@data/interface/search-payments';
+import { ServerService } from '@data/service/server.service';
+import { Server } from '@data/schema/server';
+import { ServerSearch } from '@data/interface/server-search';
 
-export class PaymentsDataSource implements DataSource<Payment> {
-  private paymentsSubject = new BehaviorSubject<Payment[]>([]);
+export class ServersDataSource implements DataSource<Server> {
+  private serversSubject = new BehaviorSubject<Server[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private signal$ = new Subject<any>();
 
   public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(private serverService: ServerService) {}
 
-  connect(collectionViewer: CollectionViewer): Observable<Payment[]> {
-    return this.paymentsSubject.asObservable();
+  connect(collectionViewer: CollectionViewer): Observable<Server[]> {
+    return this.serversSubject.asObservable();
   }
 
   disconnect(collectionViewer: CollectionViewer): void {
-    this.paymentsSubject.complete();
+    this.serversSubject.complete();
     this.loadingSubject.complete();
-    this.signal$.next();
+    this.signal$.next('');
     this.signal$.complete();
   }
 
-  loadPayments(searchData: Observable<PaymentSearch>) {
-    this.paymentService
-      .getPayments(searchData)
+  loadServers(searchData: Observable<ServerSearch>) {
+    this.serverService
+      .getServers(searchData)
       .pipe(
         takeUntil(this.signal$),
         catchError(() => of([])),
@@ -45,7 +45,7 @@ export class PaymentsDataSource implements DataSource<Payment> {
       .subscribe(res => {
         console.log(res);
         this.loadingSubject.next(false);
-        this.paymentsSubject.next(res.data);
+        this.serversSubject.next(res.data);
       });
   }
 }

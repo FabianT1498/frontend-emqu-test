@@ -29,7 +29,7 @@ import { ClearSelectTableService } from '@shared/service/clear-select-table.serv
 /** SCHEMAS */
 import { MonthlyPayment } from '@data/schema/monthly-payment';
 import { Repair } from '@data/schema/repair';
-import { Payment, PaymentModel } from '@data/schema/payment';
+import { Payment, PaymentModel } from '@data/schema/server';
 import { Contribution } from '@data/schema/contribution';
 
 @Component({
