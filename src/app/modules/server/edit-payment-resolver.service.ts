@@ -8,18 +8,21 @@ import {
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { PaymentService } from '@data/service/payment.service';
+import { PaymentService } from '@data/service/server.service';
+import { Payment } from '@data/schema/server';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentResolver implements Resolve<number> {
+export class EditPaymentResolver implements Resolve<any> {
   constructor(private paymentService: PaymentService, private router: Router) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<number> {
-    return this.paymentService.getPaymentsCount().pipe(map(res => res));
+  ): Observable<Payment> {
+    return this.paymentService
+      .editPayment(route.paramMap.get('id'))
+      .pipe(map(res => res));
   }
 }

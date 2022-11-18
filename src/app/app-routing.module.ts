@@ -20,11 +20,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('@modules/home/home.module').then(m => m.HomeModule)
       },
-      // {
-      //   path: 'pagos',
-      //   loadChildren: () =>
-      //     import('@modules/payment/payment.module').then(m => m.PaymentModule)
-      // },
+      {
+        path: 'servers',
+        loadChildren: () =>
+          import('@modules/server/server.module').then(m => m.ServerModule)
+      },
       // {
       //   path: 'reparaciones',
       //   loadChildren: () =>

@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 
 /** SCHEMAS */
-import { Payment } from '@data/schema/payment';
+import { Payment } from '@data/schema/server';
 
 /** SERVICES */
 import { DataService } from '@app/service/data.service';

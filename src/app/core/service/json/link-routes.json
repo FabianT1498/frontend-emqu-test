@@ -3,18 +3,18 @@
     "path": "dashboard",
     "links": [
       {
-        "title": "Equipos",
-        "link": "/equipos",
+        "title": "Check servers",
+        "link": "/servers",
         "icon": ["fas", "server"]
       }
     ]
   },
   {
-    "path": "equipos",
+    "path": "servers",
     "links": [
       {
-        "title": "Consultar equipos",
-        "link": "/equipos",
+        "title": "Check servers",
+        "link": "/servers",
         "icon": ["fas", "server"]
       }
     ]
