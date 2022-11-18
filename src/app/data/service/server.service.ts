@@ -74,6 +74,28 @@ export class ServerService {
     )
   }
 
+  createTest(data: Observable<ServerModel>): Observable<any> {
+
+    return data.pipe(
+      switchMap(req =>
+        this.http.post(
+          this.url + 'servers/test',
+          req, 
+          {
+            headers: new HttpHeaders({
+              "content-type": 'application/json',
+              "Access-Control-Allow-Origin": '*'
+            })
+          }
+        ).pipe(
+          map(res => {
+            return res;
+          })
+        )
+      )
+    );
+  }
+
   // editPayment(paymentID: string = '-1'): Observable<any> {
   //   return from(this.ipc.invoke('edit-payment', paymentID)).pipe(
   //     map(res => {
