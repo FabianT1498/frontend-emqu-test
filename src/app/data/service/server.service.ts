@@ -69,10 +69,6 @@ export class ServerService {
       }
     ).pipe(
       map((res: any) => {
-        if (res.status === 0) {
-          throw res;
-        }
-        console.log(res);
         return res;
       })
     )

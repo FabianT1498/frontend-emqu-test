@@ -56,12 +56,12 @@ export class CreateServerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.init();
     this.buildForm();
-    this.initEventListener();
   }
 
   private init() {
     this.isLoading = false;
     this.newRecord$ = new Subject<any>();
+    this.errors = [];
   }
 
   private buildForm(): void {
@@ -74,29 +74,6 @@ export class CreateServerComponent implements OnInit, OnDestroy {
   get f() {
     return this.serverForm.controls;
   }
-
-  private initEventListener(){
-    // this.serverService
-    //   .createServer(this.newRecord$)
-    //   .pipe(
-    //     takeUntil(this.signal$),
-    //     catchError(err => {
-    //       console.log(err)
-    //       // this.errors = Object.values(err.errors);
-    //       console.log(this.errors);
-    //       return of(err);
-    //     }),
-    //     finalize(() => (this.isLoading = false))
-    //   )
-    //   .subscribe(res => {
-    //     console.log(res);
-
-    //     if (res.status === 1) {
-    //       this.router.navigate(['/servers']);
-    //     }
-    //   });
-  }
-
   
   createServer() {
    
@@ -114,15 +91,15 @@ export class CreateServerComponent implements OnInit, OnDestroy {
         .pipe(
           take(1),
           catchError(err => {
-            console.log(err.message);
+            console.log(err);
             return of(err);
           }),
           finalize(() => (this.isLoading = false))
         )
         .subscribe(res => {
-          console.log(res);
-
-          if (res.status === 1) {
+          if (['400', '401'].includes(res.status)) {
+            this.errors.push(res.message);
+          } else {
             this.router.navigate(['/servers']);
           }
         });
@@ -131,7 +108,7 @@ export class CreateServerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
     // Signal all streams to complete
-    this.signal$.next('');
-    this.signal$.complete();
+    // this.signal$.next('');
+    // this.signal$.complete();
   }
 }
