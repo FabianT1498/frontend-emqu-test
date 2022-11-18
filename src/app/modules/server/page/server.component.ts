@@ -85,7 +85,7 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
       searchCriterias: this.searchForm.value,
       searchOptions: {
         sortDirection: 'asc',
-        sortActive: 'id',
+        sortActive: 'domainName',
         pageIndex: 0,
         pageSize: 5
       }
@@ -132,7 +132,7 @@ export class ServerComponent implements OnInit, AfterViewInit, OnDestroy {
         map(val => val.toUpperCase())
       );
 
-    ipv4$.subscribe(
+    domainName$.subscribe(
       (res: string) => (this.serverSearch.searchCriterias.domainName = res)
     );
 

@@ -16,6 +16,11 @@
         "title": "Check servers",
         "link": "/servers",
         "icon": ["fas", "server"]
+      },
+      {
+        "title": "create server",
+        "link": "/servers/create",
+        "icon": ["fas", "plus"]
       }
     ]
   }

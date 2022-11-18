@@ -25,7 +25,12 @@ export class ServerService {
       switchMap(req => {
         console.log(req);
         return from(
-          this.http.get(`${this.url}servers`)
+          this.http.get(`${this.url}servers`, {
+            params: {
+              ...req.searchCriterias,
+              ...req.searchOptions
+            }
+          })
         ).pipe(
           map((res: any) => {
             if (res.status === 0) {
